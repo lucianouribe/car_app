@@ -192,7 +192,7 @@ RSpec.describe DealershipsController, type: :controller do
 
     it "redirect to index path after destroy" do
       delete :destroy, id: dealership.id
-      expect(response).to redirect_to(countries_path)
+      expect(response).to redirect_to(dealerships_path)
     end
 
   end
