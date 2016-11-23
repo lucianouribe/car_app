@@ -6,6 +6,7 @@ class CreateCars < ActiveRecord::Migration[5.0]
       t.string :price
       t.string :make
       t.string :model
+      t.string :year
 
       t.timestamps
     end
