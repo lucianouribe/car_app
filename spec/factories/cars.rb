@@ -5,5 +5,6 @@ FactoryGirl.define do
     price "1500"
     make "Suziki"
     model "Sprint"
+    year '1989'
   end
 end

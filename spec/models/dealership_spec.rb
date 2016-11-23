@@ -7,12 +7,12 @@ RSpec.describe Dealership, type: :model do
     it { should validate_presence_of(:amount_of_cars) }
 
     it do
-      should validate_inclusion_of(:second_hand).
+      should validate_presence_of(:second_hand).
         in_array([true, false])
     end
 
   end
-  
+
   describe 'associations' do
     it { should have_many :cars }
   end
