@@ -8,6 +8,7 @@ class CreateCars < ActiveRecord::Migration[5.0]
       t.string :model
       t.string :year
 
+      t.belongs_to :dealership
       t.timestamps
     end
   end

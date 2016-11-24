@@ -21,8 +21,11 @@ ActiveRecord::Schema.define(version: 20161123183852) do
     t.string   "price"
     t.string   "make"
     t.string   "model"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "year"
+    t.integer  "dealership_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["dealership_id"], name: "index_cars_on_dealership_id", using: :btree
   end
 
   create_table "dealerships", force: :cascade do |t|

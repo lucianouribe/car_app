@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DealershipsController, type: :controller do
 
-  let(:dealership) { Dealership.create(name: 'Larry H Miller', amount_of_cars: 4000, second_hand: true) }
+  # let(:dealership) { Dealership.create(name: 'Larry H Miller', amount_of_cars: 4000, second_hand: true) }
   let(:dealership) { FactoryGirl.create(:dealership) }
 
 
@@ -16,7 +16,7 @@ RSpec.describe DealershipsController, type: :controller do
 
     it 'sets the dealerships instance variable' do
       get :index
-      expect(assigns(:dealership)).to eq([])
+      expect(assigns(:dealerships)).to eq([])
     end
 
     it 'renders the index template' do
@@ -46,7 +46,7 @@ RSpec.describe DealershipsController, type: :controller do
       get :new
       expect(response).to render_template(:new)
     end
-    # @dealership = Dealership.new
+
     it "sets the new instance variable" do
       get :new
       expect(assigns(:dealership)).to_not eq(nil)
@@ -58,7 +58,8 @@ RSpec.describe DealershipsController, type: :controller do
 
   # CREATE
   describe "POST #create" do
-    before(:all) do
+
+    before(:each) do
       @dealership_params = { dealership: { name: "Dealer_test", amount_of_cars: 4300, second_hand: false }}
     end
 
@@ -84,6 +85,12 @@ RSpec.describe DealershipsController, type: :controller do
       post :create, { id: dealership.id, dealership: { name: "Dealer_name", amount_of_cars: 4300, second_hand: false } }
       expect(flash[:error]).to eq('Fix errors and try again')
     end
+
+    it "renders new on fail" do
+      post :create, { id: dealership.id, dealership: { name: "Dealer_name", amount_of_cars: 4300, second_hand: false } }
+      expect(response).to render_template(:new)
+    end
+
   end
 
   # EDIT
@@ -111,22 +118,22 @@ RSpec.describe DealershipsController, type: :controller do
   describe 'PUT #update' do
 
     it "sets the dealership instance variable" do
-      put :update, { id: dealership.id, dealership: { name: 'New Dealer'}}
+      put :update, { id: dealership.id, dealership: { name: 'New Name', amount_of_cars: 4300, second_hand: false}}
       expect(assigns(:dealership).id).to eq(dealership.id)
     end
 
     it "updates the dealership" do
-      put :update, { id: dealership.id, dealership: { name: 'New Dealer'}}
-      expect(dealership.reload.name).to eq('New Dealer')
+      put :update, { id: dealership.id, dealership: { name: 'New Name'}}
+      expect(dealership.reload.name).to eq('New Name')
     end
 
     it "sets a flash message on success" do
-      put :update, { id: dealership.id, dealership: { name: 'New Dealer'}}
-      expect(flash[:success]).to eq('dealership Updated!')
+      put :update, { id: dealership.id, dealership: { name: 'New Name'}}
+      expect(flash[:success]).to eq('Dealership Updated!')
     end
 
     it "redirect to show on success" do
-      put :update, { id: dealership.id, dealership: { name: 'New Dealer'}}
+      put :update, { id: dealership.id, dealership: { name: 'New Name'}}
       expect(response).to redirect_to(dealership_path(dealership.id))
     end
 
@@ -142,7 +149,7 @@ RSpec.describe DealershipsController, type: :controller do
 
       it "sets a flash message on error" do
         put :update, { id: dealership.id, dealership: { name: "Dealer_name", amount_of_cars: 4300, second_hand: false } }
-        expect(flash[:error]).to eq('dealership failed to update!')
+        expect(flash[:error]).to eq('Dealership failed to update!')
       end
 
     end
@@ -187,7 +194,7 @@ RSpec.describe DealershipsController, type: :controller do
 
     it "sets the flash message" do
       delete :destroy, id: dealership.id
-      expect(flash[:success]).to eq('dealership Deleted!')
+      expect(flash[:success]).to eq('Dealership Deleted!')
     end
 
     it "redirect to index path after destroy" do

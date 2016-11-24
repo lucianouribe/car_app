@@ -3,31 +3,32 @@ require 'rails_helper'
 RSpec.describe CarsController, type: :controller do
 
 
-  let(:car) { Car.create(make: 'Subaru', model: 'STI', year: '2004', price: '1000', engine: 2000, c_type: 'sedan') }
-  let(:car) { FactoryGirl.create(:car) }
+  # let(:car) { Car.create(make: 'Subaru', model: 'STI', year: '2004', price: '1000', engine: 2000, c_type: 'sedan') }
+  let(:car) { FactoryGirl.create(:car)}
 
 
   # INDEX
   describe "GET #index" do
 
     it "returns http success" do
-      get :index
+      get :index, :dealership_id => car.dealership_id
+      # get :index, :id => dealership.id
       expect(response).to have_http_status(:success)
     end
 
     it 'sets the cars instance variable' do
-      get :index
+      get :index, :dealership_id => car.dealership_id
       expect(assigns(:car)).to eq([])
     end
 
     it 'renders the index template' do
-      get :index
+      get :index, :dealership_id => car.dealership_id
       expect(response).to render_template(:index)
     end
 
     it 'has cars in the cars instance variable' do
       3.times { |index| Car.create(make: "Car_#{index}", model: 'STI', year: '2004', price: '1000', engine: 2000, c_type: 'sedan') }
-      get :index
+      get :index, :dealership_id => car.dealership_id
       expect(assigns(:cars).length).to eq(3)
       expect(assigns(:cars).last.make).to eq('Car_2')
     end
@@ -35,21 +36,22 @@ RSpec.describe CarsController, type: :controller do
   end
 
 
+
   # NEW
   describe "GET #new" do
 
     it "returns http success" do
-      get :new
+      get :new, :dealership_id => car.dealership_id
       expect(response).to have_http_status(:success)
     end
 
     it "renders the new template" do
-      get :new
+      get :new, :dealership_id => car.dealership_id
       expect(response).to render_template(:new)
     end
     # @car = Car.new
     it "sets the new instance variable" do
-      get :new
+      get :new, :dealership_id => car.dealership_id
       expect(assigns(:car)).to_not eq(nil)
       expect(assigns(:car).id).to eq(nil)
     end
@@ -151,7 +153,7 @@ RSpec.describe CarsController, type: :controller do
   describe "GET #show" do
 
     it "returns http success" do
-      get :show, id: car.id
+      get :show, id: car.id, :dealership_id => car.dealership_id
       expect(response).to have_http_status(:success)
     end
 

@@ -6,5 +6,6 @@ FactoryGirl.define do
     make "Suziki"
     model "Sprint"
     year '1989'
+    dealership
   end
 end
