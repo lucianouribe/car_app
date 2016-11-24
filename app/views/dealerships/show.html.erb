@@ -1,2 +1,6 @@
 <h1>Dealerships#show</h1>
-<p>Find me in app/views/dealerships/show.html.erb</p>
+<p><%= @dealership.name %></p>
+<%= link_to 'Delete', dealership_path(@dealership), method: :destroy %>
+<%= link_to 'Edit', edit_dealership_path(@dealership) %>
+<%= link_to 'Car_index', dealership_cars_path(@dealership) %>
+<%= link_to 'Home', root_path %>

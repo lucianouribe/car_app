@@ -13,7 +13,7 @@ class DealershipsController < ApplicationController
     @dealership = Dealership.new(dealership_params)
     if @dealership.save
       flash[:success] = 'Dealership Created Succesfully!'
-      redirect_to dealership_path
+      redirect_to dealership_path(@dealership)
     else
       flash[:error] = 'Fix errors and try again'
       render :new

@@ -1,2 +1,14 @@
 <h1>Dealerships#index</h1>
 <p>Find me in app/views/dealerships/index.html.erb</p>
+
+<% @dealerships.each do |dealer| %>
+  <ul>
+    <li><%= dealer.name %></li>
+    <li><%= dealer.amount_of_cars %></li>
+    <li><%= dealer.second_hand %></li>
+    <%= link_to 'Delete', dealership_path(dealer), method: :destroy %>
+    <%= link_to 'Edit', edit_dealership_path(dealer) %>
+  </ul>
+<% end %>
+
+<%= link_to 'new', new_dealership_path %>

@@ -1,2 +1,13 @@
 <h1>Cars#show</h1>
 <p>Find me in app/views/cars/show.html.erb</p>
+
+<%= @car.make %>
+<%= @car.model %>
+<%= @car.year %>
+<%= @car.price %>
+<%= @car.engine %>
+<%= @car.c_type %>
+
+<%= link_to 'Edit', edit_dealership_car_path(@dealership, @car) %>
+<%= link_to 'Bakc', :back %>
+<%= link_to 'home', root_path %>

@@ -1,2 +1,18 @@
 <h1>Cars#edit</h1>
 <p>Find me in app/views/cars/edit.html.erb</p>
+
+<%= form_for [@dealership, @car] do |f| %>
+  <%= f.label :make %>
+  <%= f.text_field :make %>
+  <%= f.label :model %>
+  <%= f.text_field :model %>
+  <%= f.label :year %>
+  <%= f.text_field :year %>
+  <%= f.label :price %>
+  <%= f.text_field :price %>
+  <%= f.label :engine %>
+  <%= f.number_field :engine %>
+  <%= f.label :c_type %>
+  <%= f.text_field :c_type %>
+  <%= f.submit %>
+<% end %>
