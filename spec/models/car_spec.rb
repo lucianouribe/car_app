@@ -23,13 +23,14 @@ RSpec.describe Car, type: :model do
     end
   end
 
+  # Fails to create
   describe 'class methods' do
     describe '.by_make' do
-      it 'returns the dealerships ordered by name' do
+      it 'returns the cars ordered by make' do
 
         car1 = Car.create(make: 'Toyota', model: 'LandCruiser', year: '2004', price: '1000', engine: 2000, c_type: 'sedan')
         car2 = Car.create(make: 'Subaru', model: 'STI', year: '2008', price: '1000', engine: 2000, c_type: 'sedan')
-        car3 = Car.create(make: 'Alfa Romeo', model: 'Mito', year: '2010', price: '1000', engine: 2000, c_type: 'sedan')
+        car3 = Car.create(make: 'Alfa', model: 'Mito', year: '2010', price: '1000', engine: 2000, c_type: 'sedan')
 
         by_make = Car.by_make
         expect(by_make[0].make).to eq(car3.make)

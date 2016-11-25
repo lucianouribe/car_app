@@ -69,15 +69,16 @@ RSpec.describe DealershipsController, type: :controller do
       expect(assigns(:dealership).name).to eq(@dealership_params[:dealership][:name])
     end
 
+    #fails it doesnt create anithing, expects 1 but gets 0
     it "creates a new dealership" do
       expect(Dealership.count).to eq(0)
       post :create, @dealership_params
-      expect(Dealership.count).to eq(1)
+      expect(Dealership.count).to eq(1) # it doesnt create anithing, expects 1 but gets 0
       expect(Dealership.first.name).to eq(@dealership_params[:dealership][:name])
     end
 
     it "sets a flash message on success" do
-      post :create, @dealership_params
+      post :create, @dealership_params # gets nil
       expect(flash[:success]).to eq('Dealership Created Succesfully!')
     end
 
@@ -138,12 +139,12 @@ RSpec.describe DealershipsController, type: :controller do
     end
 
     describe 'update failures' do
-      before (:each) do # if validates_uniqueness_of :name
+      before (:each) do # if it validates_uniqueness_of :name
         @dealership2 = Dealership.create(name: "Dealer_name", amount_of_cars: 4300, second_hand: false)
       end
 
       it "renders edit on fail" do
-        put :update, { id: dealership.id, dealership: { name: nil, amount_of_cars: 4300, second_hand: false } }
+        put :update, { id: dealership.id, dealership: { name: 'Dealer_name', amount_of_cars: 4300, second_hand: false } }
         expect(response).to render_template(:edit)
       end
 

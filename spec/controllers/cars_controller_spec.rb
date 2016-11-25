@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe CarsController, type: :controller do
 
-
-  # let(:car) { Car.create(make: 'Subaru', model: 'STI', year: '2004', price: '1000', engine: 2000, c_type: 'sedan') }
   let(:car) { FactoryGirl.create(:car)}
 
 
@@ -12,13 +10,13 @@ RSpec.describe CarsController, type: :controller do
 
     it "returns http success" do
       get :index, :dealership_id => car.dealership_id
-      # get :index, :id => dealership.id
       expect(response).to have_http_status(:success)
     end
 
+    # fail
     it 'sets the cars instance variable' do
       get :index, :dealership_id => car.dealership_id
-      expect(assigns(:car)).to eq([])
+      expect(assigns(:car)).to eq([]) # expects [] and gets nil
     end
 
     it 'renders the index template' do
@@ -26,6 +24,7 @@ RSpec.describe CarsController, type: :controller do
       expect(response).to render_template(:index)
     end
 
+    # fail it only creates one
     it 'has cars in the cars instance variable' do
       3.times { |index| Car.create(make: "Car_#{index}", model: 'STI', year: '2004', price: '1000', engine: 2000, c_type: 'sedan') }
       get :index, :dealership_id => car.dealership_id
@@ -37,7 +36,7 @@ RSpec.describe CarsController, type: :controller do
 
 
 
-  # NEW
+  # NEW all pass
   describe "GET #new" do
 
     it "returns http success" do
@@ -66,18 +65,14 @@ RSpec.describe CarsController, type: :controller do
       @car_params = { car: { make: 'Suzuki', model: 'Sprint', year: '1989', price: '1500', engine: 1000, c_type: 'Coupe', }}
     end
 
+    # fails No route matches
     it "sets the car instance variable" do
       post :create, @car_params
       expect(assigns(:car)).to_not eq(nil)
       expect(assigns(:car).make).to eq(@car_params[:car][:make])
     end
 
-    it "assigns a newly created item as @item" do
-      post :create, { list_id: list.id, item: valid_item_attributes, format: :json  }
-      expect(assigns(:item)).to be_a(Item)
-      expect(assigns(:item)).to be_persisted
-    end
-
+    # fails No route matches
     it "creates a new car" do
       expect(Car.count).to eq(0)
       post :create, @car_params
@@ -85,38 +80,41 @@ RSpec.describe CarsController, type: :controller do
       expect(Car.first.make).to eq(@car_params[:car][:make])
     end
 
+    # fails No route matches
     it "sets a flash message on success" do
       post :create, @car_params
       expect(flash[:success]).to eq('Car Created Succesfully!')
     end
 
+    # fails Expected Fix errors and try again and got nil
     it "sets a flash message on error" do
-      post :create, { id: car.id, car: { make: 'Subaru', model: 'STI', year: '2004', price: '1000', engine: 2000, c_type: 'sedan' } }
+      post :create, { :dealership_id => car.dealership_id, id: car.id, car: { make: 'Subaru', model: 'STI', year: '2004', price: '1000', engine: 2000, c_type: 'sedan' } }
       expect(flash[:error]).to eq('Fix errors and try again')
     end
 
+    # fails expected new but got []
     it "renders new on fail" do
-      post :create, { id: car.id, car: { make: 'Subaru', model: 'STI', year: '2004', price: '1000', engine: 2000, c_type: 'sedan' } }
+      post :create, { :dealership_id => car.dealership_id, id: car.id, car: { make: 'Subaru', model: 'STI', year: '2004', price: '1000', engine: 2000, c_type: 'sedan' } }
       expect(response).to render_template(:new)
     end
 
   end
 
-  # EDIT
+  # EDIT all pass
   describe "GET #edit" do
 
     it "returns http success" do
-      get :edit, id: car.id, :dealership_id => car.dealership_id
+      get :edit, :dealership_id => car.dealership_id, id: car.id
       expect(response).to have_http_status(:success)
     end
 
     it "renders edit template" do
-      get :edit, id: car.id, :dealership_id => car.dealership_id
+      get :edit, :dealership_id => car.dealership_id, id: car.id
       expect(response). to render_template(:edit)
     end
 
     it "sets car instance variable" do
-      get :edit, id: car.id, :dealership_id => car.dealership_id
+      get :edit, :dealership_id => car.dealership_id, id: car.id
       expect(assigns(:car).id).to eq(car.id)
     end
 
@@ -133,7 +131,7 @@ RSpec.describe CarsController, type: :controller do
 
     it "updates the car" do
       put :update, { :dealership_id => car.dealership_id, id: car.id, car: { make: 'New car'}}
-      expect(car.reload.name).to eq('New car')
+      expect(car.reload.make).to eq('New car')
     end
 
     it "sets a flash message on success" do
@@ -143,7 +141,7 @@ RSpec.describe CarsController, type: :controller do
 
     it "redirect to show on success" do
       put :update, { :dealership_id => car.dealership_id, id: car.id, car: { make: 'New car'}}
-      expect(response).to redirect_to(car_path(car.id))
+      expect(response).to redirect_to(dealership_car_path(car.id))
     end
 
     describe 'update failures' do
@@ -162,11 +160,11 @@ RSpec.describe CarsController, type: :controller do
   end
 
 
-  # SHOW
+  # SHOW all pass
   describe "GET #show" do
 
     it "returns http success" do
-      get :show, :dealership_id => car.dealership_id, id: car.id, :dealership_id => car.dealership_id
+      get :show, id: car.id, :dealership_id => car.dealership_id
       expect(response).to have_http_status(:success)
     end
 
@@ -183,7 +181,7 @@ RSpec.describe CarsController, type: :controller do
   end
 
 
-  # DESTROY
+  # DESTROY all pass
   describe "DELETE #destroy" do
 
     it "sets the car instance variable" do
